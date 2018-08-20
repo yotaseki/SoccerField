@@ -89,7 +89,7 @@ int run(char *dirpath, char *output, int color)
 int main(void ){
     run("images", "images_blur", 1);
     run("wearout", "wearout_blur", 1);
-    run("lables", "labels_gray", 0);
+    run("labels", "labels_gray", 0);
     return 0;
 }
 
