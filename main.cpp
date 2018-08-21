@@ -100,6 +100,7 @@ void saveImage(std::string fn, GLFWwindow *window) {
 	cv::Mat out_img(cv::Size(width, height), type);
 	glReadPixels(0, 0, width, height, format, GL_UNSIGNED_BYTE, out_img.data);
 	cv::flip(out_img, out_img, 0);
+    cv::resize(out_img,out_img,cv::Size(320,240));
 	cv::imwrite(fn,out_img);
 }
 
@@ -341,6 +342,33 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		glfwSwapBuffers(window);
 		saveImage(getFileName("images"),window);
 	}
+	else if (key == GLFW_KEY_C && ((action == GLFW_PRESS)||(action == GLFW_REPEAT)))
+	{
+	    float color[] = {random_mt(), random_mt(), random_mt(), 1.0};
+        init_light(color);
+		setRandomPosition();
+		tex_id=2;
+		glClearColor(1.0, 1.0, 1.0, 0.0);
+		display(window);
+		glfwSwapBuffers(window);
+		saveImage(getFileName("wearout"),window);
+		tex_id=1;
+		glClearColor(0.0, 0.0, 0.0, 0.0);
+		display(window);
+		glfwSwapBuffers(window);
+		saveImage(getFileName("labels"),window);
+		tex_id=0;
+		glClearColor(1.0, 1.0, 1.0, 0.0);
+		display(window);
+		glfwSwapBuffers(window);
+		saveImage(getFileName("images"),window);
+	}
+	else if (key == GLFW_KEY_L && ((action == GLFW_PRESS)||(action == GLFW_REPEAT)))
+	{
+	    float color[] = {random_mt(), random_mt(), random_mt(), 1.0};
+        init_light(color);
+        display(window);
+    }
 }
 
 static void cursor_pos_callback(GLFWwindow* window, double x, double y)
