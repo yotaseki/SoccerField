@@ -7,7 +7,7 @@ namespace fs = boost::filesystem;
 
 void Blur(cv::Mat &src)
 {
-	int N = 8;
+	int N = 2;
 	cv::Mat org = src.clone();
 	for(int y=0;y<src.rows;y++)
 	{

@@ -27,6 +27,7 @@ const int windowHeight = 960;
 GLuint g_texID[3];
 int mouse_flag=1;
 int save_flag=0;
+int random_light=0;
 int tex_id=0;
 struct Point3D{
 	double x;
@@ -312,7 +313,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		glClearColor(0.0, 0.0, 0.0, 0.0);
 		display(window);
 		glfwSwapBuffers(window);
-		saveImage(getFileName("labels"),window);
+		saveImage(getFileName("labels_tmp"),window);
 		tex_id=0;
 		glClearColor(1.0, 1.0, 1.0, 0.0);
 		display(window);
@@ -335,7 +336,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		glClearColor(0.0, 0.0, 0.0, 0.0);
 		display(window);
 		glfwSwapBuffers(window);
-		saveImage(getFileName("labels"),window);
+		saveImage(getFileName("labels_tmp"),window);
 		tex_id=0;
 		glClearColor(1.0, 1.0, 1.0, 0.0);
 		display(window);
@@ -344,10 +345,11 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	}
 	else if (key == GLFW_KEY_C && ((action == GLFW_PRESS)||(action == GLFW_REPEAT)))
 	{
-	    float color[] = {random_mt(), random_mt(), random_mt(), 1.0};
-        init_light(color);
+		random_light=1;
+	    float color[] = {(float)random_mt(), (float)random_mt(), (float)random_mt(), 1.0};
 		setRandomPosition();
 		tex_id=2;
+        init_light(color);
 		glClearColor(1.0, 1.0, 1.0, 0.0);
 		display(window);
 		glfwSwapBuffers(window);
@@ -356,18 +358,22 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		glClearColor(0.0, 0.0, 0.0, 0.0);
 		display(window);
 		glfwSwapBuffers(window);
-		saveImage(getFileName("labels"),window);
+		saveImage(getFileName("labels_tmp"),window);
 		tex_id=0;
+        init_light(color);
 		glClearColor(1.0, 1.0, 1.0, 0.0);
 		display(window);
 		glfwSwapBuffers(window);
 		saveImage(getFileName("images"),window);
+		random_light=0;
 	}
 	else if (key == GLFW_KEY_L && ((action == GLFW_PRESS)||(action == GLFW_REPEAT)))
 	{
-	    float color[] = {random_mt(), random_mt(), random_mt(), 1.0};
-        init_light(color);
+		random_light=1;
+	    float color[] = {(float)random_mt(), (float)random_mt(), (float)random_mt(), 1.0};
+		init_light(color);
         display(window);
+		random_light=0;
     }
 }
 
@@ -443,7 +449,8 @@ int main(int argc, char **argv)
 	while(!glfwWindowShouldClose(window))
 	{
 		init();
-		init_light(color);
+		if(random_light==0)
+			init_light(color);
 		glfwGetFramebufferSize(window, &width, &height);
 		reshape(width, height);
 		display(window);

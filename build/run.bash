@@ -1,5 +1,6 @@
 #!/bin/bash
 
+mv output out_bak
 mkdir output
 cmake ..
 make -j
