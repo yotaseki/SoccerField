@@ -161,7 +161,7 @@ void display(GLFWwindow *window)
 	gluLookAt(cam.x,cam.y,cam.z,obj.x,obj.y,obj.z,0.0,0.0,1.0);
 	glBindTexture(GL_TEXTURE_2D, g_texID[tex_id]);
 	glEnable(GL_TEXTURE_2D);
-	if(tex_id==0)
+	if(tex_id < 2)
 	{
 		glEnable(GL_LIGHTING);
 		glEnable(GL_LIGHT0);
@@ -173,7 +173,7 @@ void display(GLFWwindow *window)
 	glTexCoord2d(1 , 0); glVertex2d( w , h);
 	glEnd();
     glFlush();
-	if(tex_id==0)
+	if(tex_id < 2)
 	{
 		glDisable(GL_LIGHTING);
 		glDisable(GL_LIGHT0);
@@ -286,39 +286,39 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	}
 	else if (key == GLFW_KEY_T && action == GLFW_PRESS)
 	{
-		if(tex_id==1)
-		{
-			tex_id = 0;
-			glClearColor(1.0, 1.0, 1.0, 0.0);
-		}
-		else if(tex_id==2)
+		if(tex_id==0)
 		{
 			tex_id = 1;
+			glClearColor(1.0, 1.0, 1.0, 0.0);
+		}
+		else if(tex_id==1)
+		{
+			tex_id = 2;
 			glClearColor(0.0, 0.0, 0.0, 0.0);
 		}
         else{
-			tex_id = 2;
+			tex_id = 0;
 			glClearColor(1.0, 1.0, 1.0, 0.0);
         }
 
 	}
 	else if (key == GLFW_KEY_I && action == GLFW_PRESS)
 	{
-		tex_id=2;
-		glClearColor(1.0, 1.0, 1.0, 0.0);
-		display(window);
-		glfwSwapBuffers(window);
-		saveImage(getFileName("wearout"),window);
-		tex_id=1;
-		glClearColor(0.0, 0.0, 0.0, 0.0);
-		display(window);
-		glfwSwapBuffers(window);
-		saveImage(getFileName("labels_tmp"),window);
 		tex_id=0;
 		glClearColor(1.0, 1.0, 1.0, 0.0);
 		display(window);
 		glfwSwapBuffers(window);
 		saveImage(getFileName("images"),window);
+		tex_id=1;
+		glClearColor(1.0, 1.0, 1.0, 0.0);
+		display(window);
+		glfwSwapBuffers(window);
+		saveImage(getFileName("wearout"),window);
+		tex_id=2;
+		glClearColor(0.0, 0.0, 0.0, 0.0);
+		display(window);
+		glfwSwapBuffers(window);
+		saveImage(getFileName("labels_tmp"),window);
 	}
 	else if (key == GLFW_KEY_Q && action == GLFW_PRESS)
 	{
@@ -327,44 +327,43 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	else if (key == GLFW_KEY_R && ((action == GLFW_PRESS)||(action == GLFW_REPEAT)))
 	{
 		setRandomPosition();
-		tex_id=2;
-		glClearColor(1.0, 1.0, 1.0, 0.0);
-		display(window);
-		glfwSwapBuffers(window);
-		saveImage(getFileName("wearout"),window);
-		tex_id=1;
-		glClearColor(0.0, 0.0, 0.0, 0.0);
-		display(window);
-		glfwSwapBuffers(window);
-		saveImage(getFileName("labels_tmp"),window);
 		tex_id=0;
 		glClearColor(1.0, 1.0, 1.0, 0.0);
 		display(window);
 		glfwSwapBuffers(window);
 		saveImage(getFileName("images"),window);
+		tex_id=1;
+		glClearColor(1.0, 1.0, 1.0, 0.0);
+		display(window);
+		glfwSwapBuffers(window);
+		saveImage(getFileName("wearout"),window);
+		tex_id=2;
+		glClearColor(0.0, 0.0, 0.0, 0.0);
+		display(window);
+		glfwSwapBuffers(window);
+		saveImage(getFileName("labels_tmp"),window);
 	}
 	else if (key == GLFW_KEY_C && ((action == GLFW_PRESS)||(action == GLFW_REPEAT)))
 	{
 		random_light=1;
 	    float color[] = {(float)random_mt(), (float)random_mt(), (float)random_mt(), 1.0};
+        init_light(color);
 		setRandomPosition();
-		tex_id=2;
-        init_light(color);
-		glClearColor(1.0, 1.0, 1.0, 0.0);
-		display(window);
-		glfwSwapBuffers(window);
-		saveImage(getFileName("wearout"),window);
-		tex_id=1;
-		glClearColor(0.0, 0.0, 0.0, 0.0);
-		display(window);
-		glfwSwapBuffers(window);
-		saveImage(getFileName("labels_tmp"),window);
 		tex_id=0;
-        init_light(color);
 		glClearColor(1.0, 1.0, 1.0, 0.0);
 		display(window);
 		glfwSwapBuffers(window);
 		saveImage(getFileName("images"),window);
+		tex_id=1;
+		glClearColor(1.0, 1.0, 1.0, 0.0);
+		display(window);
+		glfwSwapBuffers(window);
+		saveImage(getFileName("wearout"),window);
+		tex_id=2;
+		glClearColor(0.0, 0.0, 0.0, 0.0);
+		display(window);
+		glfwSwapBuffers(window);
+		saveImage(getFileName("labels_tmp"),window);
 		random_light=0;
 	}
 	else if (key == GLFW_KEY_L && ((action == GLFW_PRESS)||(action == GLFW_REPEAT)))
@@ -443,9 +442,9 @@ int main(int argc, char **argv)
 	glfwSetKeyCallback(window, key_callback);
 	glfwMakeContextCurrent(window);
 	glfwSwapInterval(10);
-	setupTexture( g_texID[0], "../texture/SoccerField3_blur.png");
-	setupTexture( g_texID[1], "../texture/whiteline.png");
-	setupTexture( g_texID[2], "../texture/SoccerField3.png");
+	setupTexture( g_texID[0], "../texture/SoccerField3.png");
+	setupTexture( g_texID[1], "../texture/SoccerField3_blur.png");
+	setupTexture( g_texID[2], "../texture/whiteline.png");
 	while(!glfwWindowShouldClose(window))
 	{
 		init();
