@@ -101,7 +101,7 @@ void saveImage(std::string fn, GLFWwindow *window) {
 	cv::Mat out_img(cv::Size(width, height), type);
 	glReadPixels(0, 0, width, height, format, GL_UNSIGNED_BYTE, out_img.data);
 	cv::flip(out_img, out_img, 0);
-    cv::resize(out_img,out_img,cv::Size(320,240));
+    cv::resize(out_img,out_img,cv::Size(windowWidth,windowHeight));
 	cv::imwrite(fn,out_img);
 }
 
@@ -308,12 +308,12 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		glClearColor(1.0, 1.0, 1.0, 0.0);
 		display(window);
 		glfwSwapBuffers(window);
-		saveImage(getFileName("images"),window);
+		saveImage(getFileName("img"),window);
 		tex_id=1;
 		glClearColor(1.0, 1.0, 1.0, 0.0);
 		display(window);
 		glfwSwapBuffers(window);
-		saveImage(getFileName("wearout"),window);
+		saveImage(getFileName("img_wearout"),window);
 		tex_id=2;
 		glClearColor(0.0, 0.0, 0.0, 0.0);
 		display(window);
@@ -331,12 +331,12 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		glClearColor(1.0, 1.0, 1.0, 0.0);
 		display(window);
 		glfwSwapBuffers(window);
-		saveImage(getFileName("images"),window);
+		saveImage(getFileName("img"),window);
 		tex_id=1;
 		glClearColor(1.0, 1.0, 1.0, 0.0);
 		display(window);
 		glfwSwapBuffers(window);
-		saveImage(getFileName("wearout"),window);
+		saveImage(getFileName("img_wearout"),window);
 		tex_id=2;
 		glClearColor(0.0, 0.0, 0.0, 0.0);
 		display(window);
@@ -353,18 +353,52 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		glClearColor(1.0, 1.0, 1.0, 0.0);
 		display(window);
 		glfwSwapBuffers(window);
-		saveImage(getFileName("images"),window);
+		saveImage(getFileName("img_gain"),window);
 		tex_id=1;
 		glClearColor(1.0, 1.0, 1.0, 0.0);
 		display(window);
 		glfwSwapBuffers(window);
-		saveImage(getFileName("wearout"),window);
+		saveImage(getFileName("img_gain_wearout"),window);
 		tex_id=2;
 		glClearColor(0.0, 0.0, 0.0, 0.0);
 		display(window);
 		glfwSwapBuffers(window);
 		saveImage(getFileName("labels_tmp"),window);
 		random_light=0;
+	}
+	else if (key == GLFW_KEY_Z && ((action == GLFW_PRESS)||(action == GLFW_REPEAT)))
+	{
+		random_light=1;
+	    float color[] = {(float)random_mt(), (float)random_mt(), (float)random_mt(), 1.0};
+        init_light(color);
+		setRandomPosition();
+		tex_id=0;
+		glClearColor(1.0, 1.0, 1.0, 0.0);
+		display(window);
+		glfwSwapBuffers(window);
+		saveImage(getFileName("img_gain"),window);
+		tex_id=1;
+		glClearColor(1.0, 1.0, 1.0, 0.0);
+		display(window);
+		glfwSwapBuffers(window);
+		saveImage(getFileName("img_gain_wearout"),window);
+		random_light=0;
+		
+		tex_id=0;
+		glClearColor(1.0, 1.0, 1.0, 0.0);
+		display(window);
+		glfwSwapBuffers(window);
+		saveImage(getFileName("img"),window);
+		tex_id=1;
+		glClearColor(1.0, 1.0, 1.0, 0.0);
+		display(window);
+		glfwSwapBuffers(window);
+		saveImage(getFileName("img_wearout"),window);
+		tex_id=2;
+		glClearColor(0.0, 0.0, 0.0, 0.0);
+		display(window);
+		glfwSwapBuffers(window);
+		saveImage(getFileName("labels_tmp"),window);
 	}
 	else if (key == GLFW_KEY_L && ((action == GLFW_PRESS)||(action == GLFW_REPEAT)))
 	{

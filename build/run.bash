@@ -1,14 +1,14 @@
 #!/bin/bash
 
 mv output out_bak
-mkdir output
+mkdir -p output/orig
 cmake ..
 make -j
-mkdir images wearout labels_tmp
-mkdir images_blur wearout_blur labels_gray
+mkdir img img_wearout img_gain img_gain_wearout labels_tmp
+mkdir original original_blur wearout wearout_blur gain gain_blur gain_wearout gain_wearout_blur labels_gray
 ./soccerField
 ./Blur
-mv images wearout labels_tmp output
+mv img img_wearout img_gain img_gain_wearout labels_tmp output/orig
 mv images_blur wearout_blur labels_gray output
 
 # mv output ../appendColorMap/

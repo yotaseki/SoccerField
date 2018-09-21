@@ -7,7 +7,7 @@ namespace fs = boost::filesystem;
 
 void Blur(cv::Mat &src)
 {
-	int N = 2;
+	int N = 8;
 	cv::Mat org = src.clone();
 	for(int y=0;y<src.rows;y++)
 	{
@@ -66,15 +66,19 @@ int run(char *dirpath, char *output, int color)
 					cout << "input error" << endl;
 					exit(0);
 				}
-				if(color)
+				if(color==1)
 				{
-					std::cout << "image "<< p.filename()  << std::endl;
+					std::cout << "blur "<< p.filename()  << std::endl;
 					Blur(m);
 				}
-				else
+				else if(color==-1)
 				{
 					std::cout << "gray "<< p.filename()  << std::endl;
 					bgr2gray(m);
+				}
+				else
+				{
+					std::cout << "resize "<< p.filename()  << std::endl;
 				}
 				cv::resize(m,m,cv::Size(320,240));
                 string out(output);
@@ -87,9 +91,19 @@ int run(char *dirpath, char *output, int color)
 }
 
 int main(void ){
-    run("images", "images_blur", 1);
-    run("wearout", "wearout_blur", 1);
-    run("labels_tmp", "labels_gray", 0);
+    run("img", "original", 0);
+	run("img", "blur", 1);
+
+	run("img_wearout", "wearout", 0);
+    run("img_wearout", "wearout_blur", 1);
+    
+    run("img_gain", "gain", 0);
+	run("img_gain", "gain_blur", 1);
+    
+    run("img_gain_wearout", "gain_wearout", 0);
+	run("img_gain_wearout", "gain_wearout_blur", 1);
+    
+    run("labels_tmp", "labels_gray", -1);
     return 0;
 }
 
