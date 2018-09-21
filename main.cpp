@@ -161,7 +161,7 @@ void display(GLFWwindow *window)
 	gluLookAt(cam.x,cam.y,cam.z,obj.x,obj.y,obj.z,0.0,0.0,1.0);
 	glBindTexture(GL_TEXTURE_2D, g_texID[tex_id]);
 	glEnable(GL_TEXTURE_2D);
-	if(tex_id < 2)
+	if(tex_id < 2 && random_light==1)
 	{
 		glEnable(GL_LIGHTING);
 		glEnable(GL_LIGHT0);
@@ -173,7 +173,7 @@ void display(GLFWwindow *window)
 	glTexCoord2d(1 , 0); glVertex2d( w , h);
 	glEnd();
     glFlush();
-	if(tex_id < 2)
+	if(tex_id < 2 && random_light==1)
 	{
 		glDisable(GL_LIGHTING);
 		glDisable(GL_LIGHT0);
@@ -369,7 +369,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	else if (key == GLFW_KEY_Z && ((action == GLFW_PRESS)||(action == GLFW_REPEAT)))
 	{
 		random_light=1;
-	    float color[] = {(float)random_mt(), (float)random_mt(), (float)random_mt(), 1.0};
+	    float color[] = {1.0-(0.2*(float)random_mt()), 1.0-(0.2*(float)random_mt()), 1.0-(0.2*(float)random_mt()), 1.0};
         init_light(color);
 		setRandomPosition();
 		tex_id=0;
@@ -482,8 +482,7 @@ int main(int argc, char **argv)
 	while(!glfwWindowShouldClose(window))
 	{
 		init();
-		if(random_light==0)
-			init_light(color);
+        init_light(color);
 		glfwGetFramebufferSize(window, &width, &height);
 		reshape(width, height);
 		display(window);
