@@ -369,7 +369,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	else if (key == GLFW_KEY_Z && ((action == GLFW_PRESS)||(action == GLFW_REPEAT)))
 	{
 		random_light=1;
-	    float color[] = {1.0-(0.5*(float)random_mt()), 1.0-(0.5*(float)random_mt()), 1.0-(0.5*(float)random_mt()), 1.0};
+	    float color[] = {(0.5*(float)random_mt()), (0.5*(float)random_mt()), (0.5*(float)random_mt()), 1.0};
         init_light(color);
 		setRandomPosition();
 		tex_id=0;
