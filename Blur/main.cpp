@@ -80,7 +80,7 @@ int run(char *dirpath, char *output, int color)
 				{
 					std::cout << "resize "<< p.filename()  << std::endl;
 				}
-				cv::resize(m,m,cv::Size(320,240));
+				cv::resize(m,m,cv::Size(400,400));
                 string out(output);
 				string fn = out + "/"  + p.filename().string();
 				cv::imwrite(fn, m);
@@ -91,6 +91,8 @@ int run(char *dirpath, char *output, int color)
 }
 
 int main(void ){
+    run("in", "out", 1);
+    /*
     run("img", "original", 0);
 	run("img", "blur", 1);
 
@@ -104,6 +106,7 @@ int main(void ){
 	run("img_gain_wearout", "gain_wearout_blur", 1);
     
     run("labels_tmp", "labels_gray", -1);
+    */
     return 0;
 }
 
